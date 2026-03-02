@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人狼遊戲助手 | Jinro Hybrid Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f13;
+            --card-bg: #1a1a24;
+            --wolf-red: #ff3e3e;
+            --seer-blue: #3e9eff;
+            --gold: #ffcc33;
+            --text-gray: #d1d1e0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-gray);
+            font-family: 'Noto Sans TC', sans-serif;
+            margin: 0; padding: 15px;
+            background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0f0f13 100%);
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 10px;
+            border-bottom: 2px solid var(--wolf-red);
+        }
+
+        h1 { font-family: 'Noto Serif JP', serif; color: var(--wolf-red); font-size: 1.8rem; text-shadow: 0 0 10px rgba(255, 62, 62, 0.5); }
+        .subtitle { font-size: 0.8rem; color: var(--gold); letter-spacing: 1px; }
+
+        .accordion {
+            background-color: var(--card-bg);
+            color: #fff;
+            cursor: pointer;
+            padding: 20px;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 12px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid var(--wolf-red);
+        }
+
+        .panel {
+            padding: 0 15px;
+            background-color: rgba(255, 255, 255, 0.03);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .content-inner { padding: 20px 5px; }
+        
+        .item-box {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--gold);
+        }
+
+        .title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .role-name { color: var(--gold); font-weight: bold; font-size: 1.2rem; }
+
+        .lang-block { margin-top: 8px; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
+        .tag { font-size: 0.7rem; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-right: 8px; color: #000; display: inline-block; width: 30px; text-align: center; }
+        .tag-zh { background: #ff4d4d; }
+        .tag-en { background: #4d94ff; }
+        .tag-jp { background: #4dff88; }
+
+        .important-card {
+            background: rgba(255, 62, 62, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--wolf-red);
+            color: #ffb3b3;
+            margin-top: 10px;
+        }
+
+        footer { text-align: center; padding: 40px; opacity: 0.4; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>人狼遊戲 • 混合極限版</h1>
+    <p class="subtitle">WULING x TENNOJI HYBRID EDITION</p>
+</header>
+
+<button class="accordion">🌙 Roles</button>
+<div class="panel">
+  <div class="content-inner">
+    <div class="item-box" style="border-left-color: var(--wolf-red);">
+        <div class="title-row"><span>🐺</span><span class="role-name">狼人 / Werewolf / 人狼</span></div>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 每晚殺害一人。狼人互認身分，但不認識狂人。</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Kill one player each night. Wolves know each other but don't know the Madman.</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 毎晩一人を襲撃します。人狼同士は知っていますが、狂人は知りません。</div>
+    </div>
+    <div class="item-box" style="border-left-color: #ff9f43;">
+        <div class="title-row"><span>🃏</span><span class="role-name">狂人 / Madman / 狂人</span></div>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 人類身分，幫狼人贏。與狼人不互認，預言家查驗為「好人」。</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> A human helping wolves. Unknown to wolves. Appears as "Innocent" to Seer.</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 人間ですが人狼の味方。占いの結果は「人間」と出ます。</div>
+    </div>
+    <div class="item-box" style="border-left-color: var(--seer-blue);">
+        <div class="title-row"><span>🔮</span><span class="role-name">預言家 / Seer / 占い師</span></div>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 每晚查驗一人。法官告知「是狼人」或「不是狼人」。</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Check one player's identity (Wolf or Not) each night.</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 毎晩一人を占い、その人が人狼か人間かを知ることができます。</div>
+    </div>
+    <div class="item-box" style="border-left-color: #a29bfe;">
+        <div class="title-row"><span>🕯️</span><span class="role-name">靈媒師 / Medium / 霊媒師</span></div>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 查驗前一天被票選放逐者是否為狼人。</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Check if the person voted out yesterday was a Werewolf.</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 昨日追放された人が「人狼」だったかどうかがわかります。</div>
+    </div>
+    <div class="item-box" style="border-left-color: #55efc4;">
+        <div class="title-row"><span>🛡️</span><span class="role-name">狩人 / Guard / 狩人</span></div>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 保護一人。不可連守同一人。守護成功即為平安夜。</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Protect one player. Cannot guard the same person twice.</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 誰か一人を襲撃から守ります。連続ガードは禁止です。</div>
+    </div>
+    <div class="item-box" style="border-left-color: #fd79a8;">
+        <div class="title-row"><span>🧪</span><span class="role-name">女巫 / Witch / 魔女</span></div>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 解藥救人、毒藥殺人。每晚限用一瓶。</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Healing potion (save) and Poison (kill). Only one per night.</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 蘇生薬と毒薬を持っています。一晩に一回だけ使えます。</div>
+    </div>
+  </div>
+</div>
+
+<button class="accordion">📜 Rules & Terms</button>
+<div class="panel">
+  <div class="content-inner">
+    
+    <div class="item-box">
+        <strong class="title-gold">⚖️ Core Rules</strong>
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 法官不參與遊戲且不具身分，無法被任何方式殺害。
+            <br><span class="tag tag-en">EN</span> The Moderator is neutral and cannot be killed.
+            <br><span class="tag tag-jp">日</span> 進行役はゲームに参加せず、いかなる方法でも襲撃されません。
+        </div>
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> 第一晚(首夜)：法官隨機給預言家一個「好人」名單，不與查驗對象重複。
+            <br><span class="tag tag-en">EN</span> First Night: Moderator gives Seer a random "Innocent" name.
+            <br><span class="tag tag-jp">日</span> 初日の夜：進行役は占い師に、ランダムで一人「人間」を教えます。
+        </div>
+    </div>
+
+    <div class="item-box">
+        <strong class="title-gold">🗣️ Discussion Flow</strong>
+        
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 1.死者直接出局無遺言。2.法官宣佈死亡名單。
+            <br><span class="tag tag-en">EN</span> 1.Dead players exit immediately (No last words). 2.Moderator announces deaths.
+            <br><span class="tag tag-jp">日</span> 1.犠牲者は遺言なしで退場。2.進行役が死亡者を発表。
+        </div>
+
+        <div class="lang-block" style="margin-top:10px; color: var(--gold);">
+            <span class="tag tag-zh">中</span> 3.自由討論：3分鐘（首輪除外）。
+            <br><span class="tag tag-en">EN</span> 3.Free Talk: 3 mins (Except 1st round).
+            <br><span class="tag tag-jp">日</span> 3.フリートーク：3分間（初日以外）。
+        </div>
+
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> 4.個人發言：每人1分鐘，最後一人須歸票。
+            <br><span class="tag tag-en">EN</span> 4.Individual Speech: 1 min each. The last person must nominate a target.
+            <br><span class="tag tag-jp">日</span> 4.個別発言：一人1分間。最後の人は投票先を指定。
+        </div>
+
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> 5.處決：前兩輪可棄權。若票數未過半則無人出局（直接入夜）。
+            <br><span class="tag tag-en">EN</span> 5.Execution: Skip allowed in 1st/2nd rounds. If votes < 50%, no one is executed.
+            <br><span class="tag tag-jp">日</span> 5.追放：最初の2ラウンドは棄権可能。過半数未満なら追放なし。
+        </div>
+
+        <div class="lang-block" style="margin-top:10px; border-top: 1px dashed #555; padding-top: 5px;">
+            <span class="tag tag-zh">中</span> 平票機制：平票則二輪表決；若依舊平票，由法官隨機抽一人出局。
+            <br><span class="tag tag-en">EN</span> Tie-break: Re-vote if tied. If still tied, Moderator chooses randomly.
+            <br><span class="tag tag-jp">日</span> 決選投票：同票なら再投票。決まらなければ進行役が抽選で選ぶ。
+        </div>
+    </div>
+    <div class="item-box">
+        <strong class="title-gold">📖 專業術語 | Terms | 専門用語</strong>
+        
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> <b>金水：</b>預言家驗出的好人。
+            <br><span class="tag tag-en">EN</span> <b>White / Innocent:</b> Verified by the Seer.
+            <br><span class="tag tag-jp">日</span> <b>白 (しろ)：</b>占い師に「人間」と判定された人。
+        </div>
+
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> <b>查殺：</b>預言家驗出的狼人。
+            <br><span class="tag tag-en">EN</span> <b>Black / Guilty:</b> Verified as a Werewolf.
+            <br><span class="tag tag-jp">日</span> <b>黒 (くろ)：</b>占い師に「人狼」と判定された人。
+        </div>
+
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> <b>悍跳 (CO)：</b>宣告自己的身分。
+            <br><span class="tag tag-en">EN</span> <b>Claim / CO:</b> Publicly declare your role.
+            <br><span class="tag tag-jp">日</span> <b>カミングアウト (CO)：</b>自分の役職を名乗ること。
+        </div>
+
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> <b>歸票：</b>指名大家投票的對象。
+            <br><span class="tag tag-en">EN</span> <b>Nominate:</b> Designating a target for voting.
+            <br><span class="tag tag-jp">日</span> <b>指定投票 (していとうひょう)：</b>投票先を指定すること。
+        </div>
+
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> <b>棄權：</b>不投任何人。
+            <br><span class="tag tag-en">EN</span> <b>Skip Vote / Abstain:</b> Not voting for anyone.
+            <br><span class="tag tag-jp">日</span> <b>棄権 (きけん)：</b>誰にも投票しないこと。
+        </div>
+
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> <b>平安夜：</b>昨晚無人死亡。
+            <br><span class="tag tag-en">EN</span> <b>Safe Night / GJ:</b> No one died last night.
+            <br><span class="tag tag-jp">日</span> <b>グッジョブ (GJ)：</b>昨晩、誰も死にませんでした。
+        
+    </div>
+</div>
+
+  </div>
+</div>
+
+<button class="accordion">🎤 Moderator Script</button>
+<div class="panel">
+  <div class="content-inner">
+    <div class="item-box">
+        <span class="step-title">Step 1: Night Falls</span>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 天黑請閉眼。</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Everyone, close your eyes.</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 皆、目を閉じてください。</div>
+    </div>
+    <div class="item-box">
+        <span class="step-title">Step 2: Werewolf</span>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 狼人請睜眼，你要殺誰？</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Werewolves, open your eyes. Who do you want to kill?</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 人狼は目を開けてください。誰を襲撃しますか？</div>
+    </div>
+    <div class="item-box">
+        <span class="step-title">Step 3: Seer</span>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 預言家請睜眼，你要查驗的對象是？（法官示意：好人=👍🏻、壞人=👎🏻）</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Seer, open your eyes. Who do you want to check?(👍🏻=not werewolf,👎🏻=werewolf)</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 占い師は目を開けてください。誰を占いますか？（👍🏻=人間、👎🏻=人狼）</div>
+    </div>
+    <div class="item-box">
+        <span class="step-title">Step 4: Medium</span>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 靈媒師請睜眼，他的身分是（同預言家）</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Medium, open your eyes. This person is (👍🏻/👎🏻)</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 霊媒師は目を開けてください。この人は（👍🏻/👎🏻）？</div>
+    </div>
+    <div class="item-box">
+        <span class="step-title">Step 5: Witch</span>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 女巫請睜眼，你要使用解藥嗎？你要使用毒藥嗎？（不管有沒有使用皆會講完）</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Witch, open your eyes. Do you want to use your healing potion? Do you want to use your poison?(The moderator will read the entire script regardless of whether the potions are used.)</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 魔女は目を開けてください。蘇生薬（そせいやく）を使いますか？毒薬（どくやく）を使いますか？（薬の使用の有無に関わらず、スクリプトは最後まで読み上げます。）</div>
+    </div>
+    <div class="item-box">
+        <span class="step-title">Step 6: Guard</span>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 狩人請睜眼，守誰？</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> Guard, open your eyes. Who do you want to protect?</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 狩人は目を開けてください。誰を守りますか？</div>
+    </div>
+    <div class="item-box">
+        <span class="step-title">Step 7: Morning</span>
+        <div class="lang-block"><span class="tag tag-zh">中</span> 天亮了，請睜眼。</div>
+        <div class="lang-block"><span class="tag tag-en">EN</span> It's morning. Everyone, open your eyes.</div>
+        <div class="lang-block"><span class="tag tag-jp">日</span> 朝になりました。目を開けてください。</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<button class="accordion">🗣️Strategy Phrases </button>
+<div class="panel">
+  <div class="content-inner">
+    
+    <div class="item-box">
+        <strong class="title-gold">📣 宣告身分 | Claiming Role | 役職のCO</strong>
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 我跳預言家，昨晚驗了某某是好人（金水）。
+            <br><span class="tag tag-en">EN</span> I claim Seer. (Name) is Innocent (White).
+            <br><span class="tag tag-jp">日</span> 私は占い師です。(Name)さんは「白」でした。
+        </div>
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> 我是靈媒師，昨晚投出去的人是狼。
+            <br><span class="tag tag-en">EN</span> I am the Medium. The one voted out was a Werewolf.
+            <br><span class="tag tag-jp">日</span> 私は霊媒師です。昨日追放された人は「黒」でした。
+        </div>
+    </div>
+
+    <div class="item-box">
+        <strong class="title-gold">🧐 質疑與推論 | Suspicion & Logic | 疑いと推論</strong>
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 我覺得你的發言很可疑，像是在幫狼人說話。
+            <br><span class="tag tag-en">EN</span> Your speech is suspicious. You sound like you're helping wolves.
+            <br><span class="tag tag-jp">日</span> 発言が怪しいです。人狼を庇っているように聞こえます。
+        </div>
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> 這裡有兩個預言家，其中一個一定是狂人或狼。
+            <br><span class="tag tag-en">EN</span> There are two Seers. One must be a Madman or a Wolf.
+            <br><span class="tag tag-jp">日</span> 占い師が二人出ています。一人は狂人か人狼のはずです。
+        </div>
+    </div>
+
+    <div class="item-box">
+        <strong class="title-gold">🛡️ 自保與辯解 | Defense | 弁解と自己防衛</strong>
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 我只是普通的村民，我真的沒有身分。
+            <br><span class="tag tag-en">EN</span> I am just a normal villager. I have no special role.
+            <br><span class="tag tag-jp">日</span> 私はただの村人です。何の役職も持っていません。
+        </div>
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> 如果把我投出去，好人陣營會失去重要的一票。
+            <br><span class="tag tag-en">EN</span> If you vote me out, the humans will lose a crucial vote.
+            <br><span class="tag tag-jp">日</span> 私を追放したら、人間チームは貴重な一票を失います。
+        </div>
+    </div>
+
+    <div class="item-box">
+        <strong class="title-gold">🗳️ 歸票決策 | Voting & Nomination | 投票の指定</strong>
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 這輪我建議大家一起投票給某某。
+            <br><span class="tag tag-en">EN</span> I suggest we all vote for (Name) this round.
+            <br><span class="tag tag-jp">日</span> このラウンドは(Name)さんに投票することを提案します。
+        </div>
+        <div class="lang-block" style="margin-top:10px;">
+            <span class="tag tag-zh">中</span> 資訊不足，這輪我建議大家先棄權（過票）。
+            <br><span class="tag tag-en">EN</span> Not enough info. I suggest we skip the vote this round.
+            <br><span class="tag tag-jp">日</span> 情報が足りません。今回は投票をスキップしましょう。
+        </div>
+    </div>
+
+    <div class="item-box">
+        <strong class="title-gold">❓ 求助提問 | Asking for Help | 助けを求める</strong>
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 請法官再解釋一次這部分的規則。
+            <br><span class="tag tag-en">EN</span> Moderator, could you explain this rule again?
+            <br><span class="tag tag-jp">日</span> 進行役の方、このルールをもう一度説明してください。
+        </div>
+
+
+        </div>
+    </div>
+  
+
+
+    </div>
+  </div>
+</div>
+
+<button class="accordion">⚠️Important</button>
+<div class="panel">
+  <div class="content-inner">
+    
+    <div class="important-card">
+        <strong style="display: block; margin-bottom: 10px;">🚫 遊戲干擾禁令 | No Outside Interference</strong>
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 如果對規則或詞彙不確定，請<b>絕對不要</b>向正在遊戲的玩家發問。請詢問法官或場邊同學。
+        </div>
+        <div class="lang-block">
+            <span class="tag tag-en">EN</span> If you're unsure about rules or words, <b>DO NOT</b> ask active players. Please ask the Moderator or people nearby.
+        </div>
+        <div class="lang-block">
+            <span class="tag tag-jp">日</span> ルールや翻訳が分からない時、<b>プレイ中の人に聞くのは禁止です</b>。進行役や周りの人に聞いてください。
+        </div>
+    </div>
+
+    <div class="item-box" style="margin-top: 15px;">
+        <strong class="title-gold">🔒 身分保密 | Identity Privacy</strong>
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 除狼人互認外，其餘角色皆為單獨作戰，閉眼期間嚴禁發出聲響。
+        </div>
+        <div class="lang-block">
+            <span class="tag tag-en">EN</span> Except for Werewolves, all roles play alone. No noise allowed during the Night phase.
+        </div>
+        <div class="lang-block">
+            <span class="tag tag-jp">日</span> 人狼以外は単独作戦です。夜の間は静かにしてください。音を立てるのは禁止です。
+        </div>
+    </div>
+
+    <div class="item-box">
+        <strong class="title-gold">🤐 死者噤聲 | Silence of the Dead</strong>
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 發表遺言後即退出遊戲，不得以言語、表情或手勢干擾討論。
+        </div>
+        <div class="lang-block">
+            <span class="tag tag-en">EN</span> After your final speech, you are out. No talking, facial expressions, or gestures allowed.
+        </div>
+        <div class="lang-block">
+            <span class="tag tag-jp">日</span> 遺言の後はゲーム終了です。言葉、表情、ジェスチャーで議論を邪魔しないでください。
+        </div>
+    </div>
+
+    <div class="item-box">
+        <strong class="title-gold">⚖️ 最終解釋權 | Final Authority</strong>
+        <div class="lang-block">
+            <span class="tag tag-zh">中</span> 規則最終解釋權在於主持人，主持人會公平處理所有意外情況。
+        </div>
+        <div class="lang-block">
+            <span class="tag tag-en">EN</span> The Moderator has the final say on all rules and will handle unexpected situations fairly.
+        </div>
+        <div class="lang-block">
+            <span class="tag tag-jp">日</span> ルールの最終決定権は進行役にあります。予期せぬ事態には公平に対応します。
+    </div>
+  </div>
+</div>
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+for (var i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+
+<footer>
+    Wuling High School Language Class Exchange Project
+</footer>
+
+</body>
+</html>
